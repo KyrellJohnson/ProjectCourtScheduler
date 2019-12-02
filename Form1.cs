@@ -75,7 +75,7 @@ namespace DesktopApp1
             /***
              *   variables to keep track of data entered for user
              ***/
-            String memberNo;
+            int memberNo = 0;
             String courtNo;
 
             String date_dayofmonth;
@@ -95,6 +95,8 @@ namespace DesktopApp1
             //Get Time Information
             time_reservation = dateTimePicker_reservetime.Value.TimeOfDay.ToString();
 
+
+            
 
         }
     }
