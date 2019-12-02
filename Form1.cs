@@ -73,7 +73,7 @@ namespace DesktopApp1
         private void button_addreservation_Click(object sender, EventArgs e)
         {
             /***
-             *   VARIABLES
+             *   variables to keep track of data entered for user
              ***/
             String memberNo;
             String courtNo;
@@ -81,7 +81,7 @@ namespace DesktopApp1
             String date_dayofmonth;
             String date_dayoftheweek;
             String date_month;
-            String date_year;
+            String date_year; 
 
             String time_reservation;
 
