@@ -1,0 +1,49 @@
+TO DO LIST
+
+*High Priority*
+!Create a way to read and write to a JSON file in a format consisting of:
+{
+	"members":[	
+		{
+			"MemID": "1023",
+			"ResTime": "1200",
+			"ResDateMonth": "11",
+			"ResDateDay":	"10",
+			"ResDateYear":	"2018",
+			"ResCourtNum":	"5"
+		},
+
+		{
+			#same format as above
+			...
+			...
+			...
+		}
+	]
+}
+
+!Similar file as above to store member ID assosiated penalty points
+	#Could be stored as an list/dictionary possible, with memberID as key
+	#and penalty points as value
+
+!A way to visualize the schedule of reservations
+	#might want to look into a table of dates in a specified order
+	#might need to make this either searchable or scrollable
+	#follow documentation for windows forms capabilities
+
+!A cancel in reservation should delete that from the JSON file
+	#error handling where if file does not exist create one, but without overwriting
+
+!User Access
+	#make it so if there is another reservation in same time and court that there
+	#is a way to override this, and overwriting whats in the JSON file
+	#*LOW PRIORITY*add This functionality towards the end
+
+!Confirmation Screen
+	#Have the same list (table) of reservations with ability to select and confirm
+	#which pushes this reservation through fully
+
+!Member Lookup
+	*LOW PRIORITY*
+	#doesnt have to be complicated, have the program fetch the data where
+	#it reads the penalty points from a given ID
