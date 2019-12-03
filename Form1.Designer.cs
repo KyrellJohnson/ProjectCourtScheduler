@@ -67,6 +67,7 @@ namespace DesktopApp1
             this.label_memID_memLookup = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label_memberLookup = new System.Windows.Forms.Label();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.Home.SuspendLayout();
@@ -77,6 +78,7 @@ namespace DesktopApp1
             this.Lookup.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -264,12 +266,12 @@ namespace DesktopApp1
             // 
             // dateTimePicker_reservetime
             // 
-            this.dateTimePicker_reservetime.CustomFormat = "hh:mm tt";
+            this.dateTimePicker_reservetime.CustomFormat = "HH:mm";
             this.dateTimePicker_reservetime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dateTimePicker_reservetime.Location = new System.Drawing.Point(148, 217);
             this.dateTimePicker_reservetime.Name = "dateTimePicker_reservetime";
             this.dateTimePicker_reservetime.ShowUpDown = true;
-            this.dateTimePicker_reservetime.Size = new System.Drawing.Size(91, 21);
+            this.dateTimePicker_reservetime.Size = new System.Drawing.Size(53, 21);
             this.dateTimePicker_reservetime.TabIndex = 9;
             // 
             // label_reservetime
@@ -352,6 +354,7 @@ namespace DesktopApp1
             // Schedule
             // 
             this.Schedule.BackColor = System.Drawing.Color.Silver;
+            this.Schedule.Controls.Add(this.dataGridView1);
             this.Schedule.Controls.Add(this.label_currentschedule);
             this.Schedule.Location = new System.Drawing.Point(4, 22);
             this.Schedule.Name = "Schedule";
@@ -363,7 +366,7 @@ namespace DesktopApp1
             // 
             this.label_currentschedule.AutoSize = true;
             this.label_currentschedule.Font = new System.Drawing.Font("Century Gothic", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_currentschedule.Location = new System.Drawing.Point(153, 183);
+            this.label_currentschedule.Location = new System.Drawing.Point(151, 21);
             this.label_currentschedule.Name = "label_currentschedule";
             this.label_currentschedule.Size = new System.Drawing.Size(188, 25);
             this.label_currentschedule.TabIndex = 0;
@@ -509,6 +512,14 @@ namespace DesktopApp1
             this.label_memberLookup.TabIndex = 0;
             this.label_memberLookup.Text = "Member Lookup";
             // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(34, 49);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(441, 382);
+            this.dataGridView1.TabIndex = 1;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -538,6 +549,7 @@ namespace DesktopApp1
             this.panel3.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -582,6 +594,7 @@ namespace DesktopApp1
         private System.Windows.Forms.Button button_addreservation;
         private System.Windows.Forms.Label label_reservetime;
         private System.Windows.Forms.DateTimePicker dateTimePicker_reservetime;
+        private System.Windows.Forms.DataGridView dataGridView1;
     }
 }
 
