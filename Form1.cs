@@ -23,6 +23,20 @@ namespace DesktopApp1
         public Form1()
         {
             InitializeComponent();
+            if (File.Exists("data.xml"))
+            {
+                if (new FileInfo("data.xml").Length != 0)
+                {
+                    showTable();
+                    dataGridView1.Columns[0].Width = 95;
+                    dataGridView1.Columns[4].Width = 75;
+                }
+                else
+                {
+                    File.Delete("data.xml");
+                }
+            }
+            
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -84,11 +98,11 @@ namespace DesktopApp1
             String courtNo;
 
             String date_dayofmonth;
-            String date_dayoftheweek;
             String date_month;
             String date_year; 
 
-            String time_reservation;
+            String time_reservation_short;
+            String didConfirm = "--";
 
 
             //Get Date Information (1, 1, Wednesday, 2018) = Jan 1 2018
@@ -98,7 +112,8 @@ namespace DesktopApp1
             date_year           = dateTimePicker_reservedate.Value.Year.ToString();
 
             //Get Time Information
-            time_reservation = dateTimePicker_reservetime.Value.TimeOfDay.ToString();
+            time_reservation_short = dateTimePicker_reservetime.Value.ToShortTimeString();
+        
 
             //get MemberID
             memberNo            = (textBox_MemID.Text);
@@ -106,63 +121,189 @@ namespace DesktopApp1
             //get courtNo
             courtNo             = (textBox_CourtNum.Text);
 
-            //Debugging, get input within fields
-            Debug.WriteLine("Member ID: " + memberNo);
-            Debug.WriteLine("Court Np: " + courtNo);
-            Debug.WriteLine("Court Number: " + courtNo);
-            Debug.WriteLine("Day of Month: " + date_dayofmonth);
-            Debug.WriteLine("Date Month: " + date_month);
-            Debug.WriteLine("Date Year: " + date_year);
-            Debug.WriteLine("Time: " + time_reservation);
-//--------------------------------------------------------------------------------------//
-            Reservations reservation = new Reservations();
-            /*
-                        if (!File.Exists("Test.xml"))
-                        {
-                            XmlWriterSettings xmlWriterSettings = new XmlWriterSettings();
-                            xmlWriterSettings.Indent = true;
-                            xmlWriterSettings.NewLineOnAttributes = true;
-                            using (XmlWriter xmlWriter = XmlWriter.Create("Test.xml", xmlWriterSettings))
-                            {
-                                xmlWriter.WriteStartDocument();
-                                xmlWriter.WriteStartElement("CurrentReservations");
 
-                                xmlWriter.WriteStartElement("Reservation");
-                                xmlWriter.WriteElementString("memID", memberNo);
-                                xmlWriter.WriteElementString("Court", courtNo);
-                                xmlWriter.WriteEndElement();
+            //methods to check if there is valid numerical input
+            memberNo = GetCorrectInput(memberNo);
+            courtNo = GetCorrectInput(courtNo);
 
-                                xmlWriter.WriteEndElement();
-                                xmlWriter.WriteEndDocument();
-                                xmlWriter.Flush();
-                                xmlWriter.Close();
-                            }
-                        }
-                        else
-                        {
-                            XDocument xDocument = XDocument.Load("Test.xml");
-                            XElement root = xDocument.Element("CurrentReservations");
-                            IEnumerable<XElement> rows = root.Descendants("Reservation");
-                            XElement firstRow = rows.First();
-                            firstRow.AddBeforeSelf(
-                               new XElement("Reservation",
-                               new XElement("memID", memberNo),
-                               new XElement("Court", courtNo)));
-                            xDocument.Save("Test.xml");
-                        }
-            */
+            //method to check if file is empty, if empty delete file
+            fileEmpty();
 
-            try
+            //Write the filled information to an XML file
+            if (memberNo != ""  && courtNo != "")
             {
-                DataSet ds = new DataSet();
-                ds.ReadXml("Test.xml");
-                dataGridView1.DataSource = ds.Tables[0];
-            }catch(Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
+                if (!File.Exists("data.xml"))
+                {
+                    XmlWriterSettings xmlWriterSettings = new XmlWriterSettings();
+                    xmlWriterSettings.Indent = true;
+                    xmlWriterSettings.NewLineOnAttributes = true;
+                    using (XmlWriter xmlWriter = XmlWriter.Create("data.xml", xmlWriterSettings))
+                    {
+                        xmlWriter.WriteStartDocument();
+                        xmlWriter.WriteStartElement("CurrentReservations");
+
+                        xmlWriter.WriteStartElement("Reservation");
+                        xmlWriter.WriteElementString("ID", memberNo);
+                        xmlWriter.WriteElementString("Court", courtNo);
+                        xmlWriter.WriteElementString("Day", date_month + "/" + date_dayofmonth + "/" + date_year);
+                        xmlWriter.WriteElementString("Time", time_reservation_short);
+                        xmlWriter.WriteElementString("Confirmed", didConfirm);
+                        xmlWriter.WriteEndElement();
+
+                        xmlWriter.WriteEndElement();
+                        xmlWriter.WriteEndDocument();
+                        xmlWriter.Flush();
+                        xmlWriter.Close();
+                    }
+                }
+                else
+                {
+                    XDocument xDocument = XDocument.Load("data.xml");
+                    XElement root = xDocument.Element("CurrentReservations");
+                    IEnumerable<XElement> rows = root.Descendants("Reservation");
+                    XElement firstRow = rows.First();
+                    
+                    firstRow.AddBeforeSelf(
+                       new XElement("Reservation",
+                       new XElement("ID", memberNo),
+                       new XElement("Court", courtNo),
+                       new XElement("Day", date_month + "/" + date_dayofmonth + "/" + date_year),
+                       new XElement("Time", time_reservation_short),
+                       new XElement("Confirmed", didConfirm)));
+                    xDocument.Save("data.xml");
+                }
+
+                showTable();
+
+
+                MessageBox.Show("Member added. Schedule updated.");
             }
+            else
+            {
+                MessageBox.Show("Invalid input. Please fill out all fields correctly.");
+            }
+          
         }
 
+        /**
+         * 
+         * Confirm Reservation
+         * 
+         * */
+
+        private void btn_confirm_reservation_Click(object sender, EventArgs e)
+        {
+            string xmlDoc;
+            string memID;
+
+            memID = textBox_confirm_memid.Text;
+
+            //check for numerical input
+            memID = GetCorrectInput(memID);
+
+            //get the member ID from field
+            if (memID != "")
+            {
+                //set string for the XML Doc
+                xmlDoc = xmlAsString();
+
+                //load in the string
+                XmlDocument xml = new XmlDocument();
+                xml.LoadXml(xmlDoc);
+
+                //check all nodes under reservation section
+                XmlNodeList xnlist = xml.SelectNodes("/CurrentReservations/Reservation");
+
+                foreach(XmlNode xn in xnlist)
+                {
+                    if(xn["ID"].InnerText == memID)
+                    {
+                        lbl_confirm_court_output.Text = xn["Court"].InnerText;
+                        lbl_confirm_time_output.Text = xn["Time"].InnerText;
+                        lbl_confirm_date_output.Text = xn["Day"].InnerText;
+
+                    }
+                }
+                
+            }
+            else
+            {
+                MessageBox.Show("Incorrect input in text field.");
+            }
+
+            
+
+
+
+        }
+
+        private void showTable()
+        {
+            if(new FileInfo("data.xml").Length > 0)
+            {
+                try
+                {
+                    DataSet ds = new DataSet();
+                    ds.Clear();
+                    ds.ReadXml("data.xml");
+                    dataGridView1.DataSource = ds.Tables[0];
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                }
+            }
+            
+        }
+
+        private void fileEmpty()
+        {
+            if (File.Exists("data.xml"))
+            {
+                if (new FileInfo("data.xml").Length == 0)
+                {
+                    File.Delete("data.xml");
+                }
+            }
+        }
+        
+
+        private string GetCorrectInput(string input)
+        {
+            //makes sure the two fields are numerical
+            int output;
+
+            int.TryParse(input, out output);
+
+            if(output == 0)
+            {
+                input = "";
+                return input;
+            }else if (output > 0)
+            {
+                return input;
+            }
+            else
+            {
+                input = "";
+                return input;
+            }
+            
+        }
+
+        private string xmlAsString()
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load("data.xml");
+
+            StringWriter sw = new StringWriter();
+            XmlTextWriter tx = new XmlTextWriter(sw);
+
+            xmlDoc.WriteTo(tx);
+
+            string str = sw.ToString();
+            return str;
+        }
         
     }
 }

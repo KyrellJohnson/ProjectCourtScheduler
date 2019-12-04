@@ -28,6 +28,7 @@ namespace DesktopApp1
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel1 = new System.Windows.Forms.Panel();
             this.button_HOME = new System.Windows.Forms.Button();
             this.button_MemberLookup = new System.Windows.Forms.Button();
@@ -52,8 +53,17 @@ namespace DesktopApp1
             this.button_addreservation = new System.Windows.Forms.Button();
             this.label_addreservation = new System.Windows.Forms.Label();
             this.Schedule = new System.Windows.Forms.TabPage();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.label_currentschedule = new System.Windows.Forms.Label();
             this.Confirm = new System.Windows.Forms.TabPage();
+            this.lbl_confirm_date_output = new System.Windows.Forms.Label();
+            this.lbl_confirm_time_output = new System.Windows.Forms.Label();
+            this.lbl_confirm_court_output = new System.Windows.Forms.Label();
+            this.textBox_confirm_memid = new System.Windows.Forms.TextBox();
+            this.lbl_confirm_date = new System.Windows.Forms.Label();
+            this.lbl_confirm_time = new System.Windows.Forms.Label();
+            this.lbl_confirm_courtNo = new System.Windows.Forms.Label();
+            this.lbl_confirm_memID = new System.Windows.Forms.Label();
             this.label_confirmschedule = new System.Windows.Forms.Label();
             this.Cancel = new System.Windows.Forms.TabPage();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -67,18 +77,18 @@ namespace DesktopApp1
             this.label_memID_memLookup = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label_memberLookup = new System.Windows.Forms.Label();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.btn_confirm_reservation = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.Home.SuspendLayout();
             this.NewReservation.SuspendLayout();
             this.Schedule.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.Confirm.SuspendLayout();
             this.Cancel.SuspendLayout();
             this.Lookup.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -362,6 +372,29 @@ namespace DesktopApp1
             this.Schedule.TabIndex = 2;
             this.Schedule.Text = "Schedule";
             // 
+            // dataGridView1
+            // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AllowUserToResizeColumns = false;
+            this.dataGridView1.AllowUserToResizeRows = false;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.SkyBlue;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dataGridView1.Location = new System.Drawing.Point(35, 49);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.dataGridView1.Size = new System.Drawing.Size(454, 382);
+            this.dataGridView1.TabIndex = 1;
+            // 
             // label_currentschedule
             // 
             this.label_currentschedule.AutoSize = true;
@@ -375,6 +408,15 @@ namespace DesktopApp1
             // Confirm
             // 
             this.Confirm.BackColor = System.Drawing.Color.Silver;
+            this.Confirm.Controls.Add(this.btn_confirm_reservation);
+            this.Confirm.Controls.Add(this.lbl_confirm_date_output);
+            this.Confirm.Controls.Add(this.lbl_confirm_time_output);
+            this.Confirm.Controls.Add(this.lbl_confirm_court_output);
+            this.Confirm.Controls.Add(this.textBox_confirm_memid);
+            this.Confirm.Controls.Add(this.lbl_confirm_date);
+            this.Confirm.Controls.Add(this.lbl_confirm_time);
+            this.Confirm.Controls.Add(this.lbl_confirm_courtNo);
+            this.Confirm.Controls.Add(this.lbl_confirm_memID);
             this.Confirm.Controls.Add(this.label_confirmschedule);
             this.Confirm.Location = new System.Drawing.Point(4, 22);
             this.Confirm.Name = "Confirm";
@@ -382,11 +424,88 @@ namespace DesktopApp1
             this.Confirm.TabIndex = 3;
             this.Confirm.Text = "Confirm";
             // 
+            // lbl_confirm_date_output
+            // 
+            this.lbl_confirm_date_output.AutoSize = true;
+            this.lbl_confirm_date_output.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_confirm_date_output.Location = new System.Drawing.Point(220, 245);
+            this.lbl_confirm_date_output.Name = "lbl_confirm_date_output";
+            this.lbl_confirm_date_output.Size = new System.Drawing.Size(25, 21);
+            this.lbl_confirm_date_output.TabIndex = 8;
+            this.lbl_confirm_date_output.Text = "---";
+            // 
+            // lbl_confirm_time_output
+            // 
+            this.lbl_confirm_time_output.AutoSize = true;
+            this.lbl_confirm_time_output.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_confirm_time_output.Location = new System.Drawing.Point(220, 200);
+            this.lbl_confirm_time_output.Name = "lbl_confirm_time_output";
+            this.lbl_confirm_time_output.Size = new System.Drawing.Size(25, 21);
+            this.lbl_confirm_time_output.TabIndex = 7;
+            this.lbl_confirm_time_output.Text = "---";
+            // 
+            // lbl_confirm_court_output
+            // 
+            this.lbl_confirm_court_output.AutoSize = true;
+            this.lbl_confirm_court_output.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_confirm_court_output.Location = new System.Drawing.Point(220, 158);
+            this.lbl_confirm_court_output.Name = "lbl_confirm_court_output";
+            this.lbl_confirm_court_output.Size = new System.Drawing.Size(25, 21);
+            this.lbl_confirm_court_output.TabIndex = 6;
+            this.lbl_confirm_court_output.Text = "---";
+            // 
+            // textBox_confirm_memid
+            // 
+            this.textBox_confirm_memid.Location = new System.Drawing.Point(168, 105);
+            this.textBox_confirm_memid.Name = "textBox_confirm_memid";
+            this.textBox_confirm_memid.Size = new System.Drawing.Size(168, 21);
+            this.textBox_confirm_memid.TabIndex = 5;
+            // 
+            // lbl_confirm_date
+            // 
+            this.lbl_confirm_date.AutoSize = true;
+            this.lbl_confirm_date.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_confirm_date.Location = new System.Drawing.Point(156, 245);
+            this.lbl_confirm_date.Name = "lbl_confirm_date";
+            this.lbl_confirm_date.Size = new System.Drawing.Size(58, 21);
+            this.lbl_confirm_date.TabIndex = 4;
+            this.lbl_confirm_date.Text = "Date: ";
+            // 
+            // lbl_confirm_time
+            // 
+            this.lbl_confirm_time.AutoSize = true;
+            this.lbl_confirm_time.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_confirm_time.Location = new System.Drawing.Point(154, 200);
+            this.lbl_confirm_time.Name = "lbl_confirm_time";
+            this.lbl_confirm_time.Size = new System.Drawing.Size(54, 21);
+            this.lbl_confirm_time.TabIndex = 3;
+            this.lbl_confirm_time.Text = "Time: ";
+            // 
+            // lbl_confirm_courtNo
+            // 
+            this.lbl_confirm_courtNo.AutoSize = true;
+            this.lbl_confirm_courtNo.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_confirm_courtNo.Location = new System.Drawing.Point(84, 158);
+            this.lbl_confirm_courtNo.Name = "lbl_confirm_courtNo";
+            this.lbl_confirm_courtNo.Size = new System.Drawing.Size(130, 21);
+            this.lbl_confirm_courtNo.TabIndex = 2;
+            this.lbl_confirm_courtNo.Text = "Court Number: ";
+            // 
+            // lbl_confirm_memID
+            // 
+            this.lbl_confirm_memID.AutoSize = true;
+            this.lbl_confirm_memID.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_confirm_memID.Location = new System.Drawing.Point(57, 103);
+            this.lbl_confirm_memID.Name = "lbl_confirm_memID";
+            this.lbl_confirm_memID.Size = new System.Drawing.Size(105, 21);
+            this.lbl_confirm_memID.TabIndex = 1;
+            this.lbl_confirm_memID.Text = "Member ID: ";
+            // 
             // label_confirmschedule
             // 
             this.label_confirmschedule.AutoSize = true;
             this.label_confirmschedule.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_confirmschedule.Location = new System.Drawing.Point(122, 186);
+            this.label_confirmschedule.Location = new System.Drawing.Point(141, 21);
             this.label_confirmschedule.Name = "label_confirmschedule";
             this.label_confirmschedule.Size = new System.Drawing.Size(226, 25);
             this.label_confirmschedule.TabIndex = 0;
@@ -512,13 +631,16 @@ namespace DesktopApp1
             this.label_memberLookup.TabIndex = 0;
             this.label_memberLookup.Text = "Member Lookup";
             // 
-            // dataGridView1
+            // btn_confirm_reservation
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(34, 49);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(441, 382);
-            this.dataGridView1.TabIndex = 1;
+            this.btn_confirm_reservation.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_confirm_reservation.Location = new System.Drawing.Point(168, 337);
+            this.btn_confirm_reservation.Name = "btn_confirm_reservation";
+            this.btn_confirm_reservation.Size = new System.Drawing.Size(158, 35);
+            this.btn_confirm_reservation.TabIndex = 9;
+            this.btn_confirm_reservation.Text = "Confirm";
+            this.btn_confirm_reservation.UseVisualStyleBackColor = true;
+            this.btn_confirm_reservation.Click += new System.EventHandler(this.btn_confirm_reservation_Click);
             // 
             // Form1
             // 
@@ -540,6 +662,7 @@ namespace DesktopApp1
             this.NewReservation.PerformLayout();
             this.Schedule.ResumeLayout(false);
             this.Schedule.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.Confirm.ResumeLayout(false);
             this.Confirm.PerformLayout();
             this.Cancel.ResumeLayout(false);
@@ -549,7 +672,6 @@ namespace DesktopApp1
             this.panel3.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -595,6 +717,15 @@ namespace DesktopApp1
         private System.Windows.Forms.Label label_reservetime;
         private System.Windows.Forms.DateTimePicker dateTimePicker_reservetime;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Label lbl_confirm_memID;
+        private System.Windows.Forms.Label lbl_confirm_date;
+        private System.Windows.Forms.Label lbl_confirm_time;
+        private System.Windows.Forms.Label lbl_confirm_courtNo;
+        private System.Windows.Forms.Label lbl_confirm_date_output;
+        private System.Windows.Forms.Label lbl_confirm_time_output;
+        private System.Windows.Forms.Label lbl_confirm_court_output;
+        private System.Windows.Forms.TextBox textBox_confirm_memid;
+        private System.Windows.Forms.Button btn_confirm_reservation;
     }
 }
 
