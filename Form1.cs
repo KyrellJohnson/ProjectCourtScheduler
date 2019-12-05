@@ -28,7 +28,7 @@ namespace DesktopApp1
                 if (new FileInfo("data.xml").Length != 0)
                 {
                     showTable();
-                    dataGridView1.Columns[0].Width = 95;
+                    dataGridView1.Columns[0].Width = 55;
                     dataGridView1.Columns[4].Width = 75;
                 }
                 else
@@ -210,20 +210,27 @@ namespace DesktopApp1
                 //load in the string
                 XmlDocument xml = new XmlDocument();
                 xml.LoadXml(xmlDoc);
+                XmlNode node = xml.SelectSingleNode("/CurrentReservations/Reservation/Confirmed");
+
 
                 //check all nodes under reservation section
                 XmlNodeList xnlist = xml.SelectNodes("/CurrentReservations/Reservation");
 
                 foreach(XmlNode xn in xnlist)
                 {
-                    if(xn["ID"].InnerText == memID)
+                    if(xn["ID"].InnerText == memID && node != null)
                     {
                         lbl_confirm_court_output.Text = xn["Court"].InnerText;
                         lbl_confirm_time_output.Text = xn["Time"].InnerText;
                         lbl_confirm_date_output.Text = xn["Day"].InnerText;
-
+                        xn["Confirmed"].InnerText = "\u2713";
+                        //node.InnerText = "no";
+                        xml.Save("data.xml");
+                        showTable();
                     }
                 }
+
+                MessageBox.Show("Reservation Confirmed.");
                 
             }
             else

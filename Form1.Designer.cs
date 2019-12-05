@@ -56,6 +56,7 @@ namespace DesktopApp1
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.label_currentschedule = new System.Windows.Forms.Label();
             this.Confirm = new System.Windows.Forms.TabPage();
+            this.btn_confirm_reservation = new System.Windows.Forms.Button();
             this.lbl_confirm_date_output = new System.Windows.Forms.Label();
             this.lbl_confirm_time_output = new System.Windows.Forms.Label();
             this.lbl_confirm_court_output = new System.Windows.Forms.Label();
@@ -77,7 +78,6 @@ namespace DesktopApp1
             this.label_memID_memLookup = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label_memberLookup = new System.Windows.Forms.Label();
-            this.btn_confirm_reservation = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.Home.SuspendLayout();
@@ -388,11 +388,11 @@ namespace DesktopApp1
             this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dataGridView1.Location = new System.Drawing.Point(35, 49);
+            this.dataGridView1.Location = new System.Drawing.Point(23, 49);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            this.dataGridView1.Size = new System.Drawing.Size(454, 382);
+            this.dataGridView1.Size = new System.Drawing.Size(466, 382);
             this.dataGridView1.TabIndex = 1;
             // 
             // label_currentschedule
@@ -423,6 +423,17 @@ namespace DesktopApp1
             this.Confirm.Size = new System.Drawing.Size(520, 465);
             this.Confirm.TabIndex = 3;
             this.Confirm.Text = "Confirm";
+            // 
+            // btn_confirm_reservation
+            // 
+            this.btn_confirm_reservation.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_confirm_reservation.Location = new System.Drawing.Point(168, 337);
+            this.btn_confirm_reservation.Name = "btn_confirm_reservation";
+            this.btn_confirm_reservation.Size = new System.Drawing.Size(158, 35);
+            this.btn_confirm_reservation.TabIndex = 9;
+            this.btn_confirm_reservation.Text = "Confirm";
+            this.btn_confirm_reservation.UseVisualStyleBackColor = true;
+            this.btn_confirm_reservation.Click += new System.EventHandler(this.btn_confirm_reservation_Click);
             // 
             // lbl_confirm_date_output
             // 
@@ -509,7 +520,7 @@ namespace DesktopApp1
             this.label_confirmschedule.Name = "label_confirmschedule";
             this.label_confirmschedule.Size = new System.Drawing.Size(226, 25);
             this.label_confirmschedule.TabIndex = 0;
-            this.label_confirmschedule.Text = "Confrim Reservation";
+            this.label_confirmschedule.Text = "Confirm Reservation";
             // 
             // Cancel
             // 
@@ -630,17 +641,6 @@ namespace DesktopApp1
             this.label_memberLookup.Size = new System.Drawing.Size(231, 33);
             this.label_memberLookup.TabIndex = 0;
             this.label_memberLookup.Text = "Member Lookup";
-            // 
-            // btn_confirm_reservation
-            // 
-            this.btn_confirm_reservation.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_confirm_reservation.Location = new System.Drawing.Point(168, 337);
-            this.btn_confirm_reservation.Name = "btn_confirm_reservation";
-            this.btn_confirm_reservation.Size = new System.Drawing.Size(158, 35);
-            this.btn_confirm_reservation.TabIndex = 9;
-            this.btn_confirm_reservation.Text = "Confirm";
-            this.btn_confirm_reservation.UseVisualStyleBackColor = true;
-            this.btn_confirm_reservation.Click += new System.EventHandler(this.btn_confirm_reservation_Click);
             // 
             // Form1
             // 
