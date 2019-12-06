@@ -78,6 +78,16 @@ namespace DesktopApp1
             this.label_memID_memLookup = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label_memberLookup = new System.Windows.Forms.Label();
+            this.btn_cancel_reservation = new System.Windows.Forms.Button();
+            this.lbl_cancel_memID = new System.Windows.Forms.Label();
+            this.textBox_cancel_reservation = new System.Windows.Forms.TextBox();
+            this.lbl_cancel_reservation = new System.Windows.Forms.Label();
+            this.lbl_cancel_date = new System.Windows.Forms.Label();
+            this.lbl_cancel_time = new System.Windows.Forms.Label();
+            this.lbl_cancel_courtNo_output = new System.Windows.Forms.Label();
+            this.lbl_cancel_time_output = new System.Windows.Forms.Label();
+            this.lbl_cancel_date_output = new System.Windows.Forms.Label();
+            this.label_cancel_info = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.Home.SuspendLayout();
@@ -525,6 +535,16 @@ namespace DesktopApp1
             // Cancel
             // 
             this.Cancel.BackColor = System.Drawing.Color.Silver;
+            this.Cancel.Controls.Add(this.label_cancel_info);
+            this.Cancel.Controls.Add(this.lbl_cancel_date_output);
+            this.Cancel.Controls.Add(this.lbl_cancel_time_output);
+            this.Cancel.Controls.Add(this.lbl_cancel_courtNo_output);
+            this.Cancel.Controls.Add(this.lbl_cancel_time);
+            this.Cancel.Controls.Add(this.lbl_cancel_date);
+            this.Cancel.Controls.Add(this.lbl_cancel_reservation);
+            this.Cancel.Controls.Add(this.textBox_cancel_reservation);
+            this.Cancel.Controls.Add(this.lbl_cancel_memID);
+            this.Cancel.Controls.Add(this.btn_cancel_reservation);
             this.Cancel.Controls.Add(this.flowLayoutPanel1);
             this.Cancel.Controls.Add(this.label_cancelreservation);
             this.Cancel.Location = new System.Drawing.Point(4, 22);
@@ -544,7 +564,7 @@ namespace DesktopApp1
             // 
             this.label_cancelreservation.AutoSize = true;
             this.label_cancelreservation.Font = new System.Drawing.Font("Century Gothic", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_cancelreservation.Location = new System.Drawing.Point(163, 179);
+            this.label_cancelreservation.Location = new System.Drawing.Point(148, 21);
             this.label_cancelreservation.Name = "label_cancelreservation";
             this.label_cancelreservation.Size = new System.Drawing.Size(209, 25);
             this.label_cancelreservation.TabIndex = 0;
@@ -577,7 +597,7 @@ namespace DesktopApp1
             // button_lookupMember
             // 
             this.button_lookupMember.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_lookupMember.Location = new System.Drawing.Point(40, 153);
+            this.button_lookupMember.Location = new System.Drawing.Point(337, 79);
             this.button_lookupMember.Name = "button_lookupMember";
             this.button_lookupMember.Size = new System.Drawing.Size(147, 39);
             this.button_lookupMember.TabIndex = 4;
@@ -641,6 +661,104 @@ namespace DesktopApp1
             this.label_memberLookup.Size = new System.Drawing.Size(231, 33);
             this.label_memberLookup.TabIndex = 0;
             this.label_memberLookup.Text = "Member Lookup";
+            // 
+            // btn_cancel_reservation
+            // 
+            this.btn_cancel_reservation.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_cancel_reservation.Location = new System.Drawing.Point(153, 371);
+            this.btn_cancel_reservation.Name = "btn_cancel_reservation";
+            this.btn_cancel_reservation.Size = new System.Drawing.Size(226, 39);
+            this.btn_cancel_reservation.TabIndex = 2;
+            this.btn_cancel_reservation.Text = "Cancel Reservation";
+            this.btn_cancel_reservation.UseVisualStyleBackColor = true;
+            this.btn_cancel_reservation.Click += new System.EventHandler(this.btn_cancel_reservation_Click);
+            // 
+            // lbl_cancel_memID
+            // 
+            this.lbl_cancel_memID.AutoSize = true;
+            this.lbl_cancel_memID.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_cancel_memID.Location = new System.Drawing.Point(76, 124);
+            this.lbl_cancel_memID.Name = "lbl_cancel_memID";
+            this.lbl_cancel_memID.Size = new System.Drawing.Size(101, 21);
+            this.lbl_cancel_memID.TabIndex = 3;
+            this.lbl_cancel_memID.Text = "Member ID:";
+            // 
+            // textBox_cancel_reservation
+            // 
+            this.textBox_cancel_reservation.Location = new System.Drawing.Point(184, 124);
+            this.textBox_cancel_reservation.Name = "textBox_cancel_reservation";
+            this.textBox_cancel_reservation.Size = new System.Drawing.Size(143, 21);
+            this.textBox_cancel_reservation.TabIndex = 4;
+            // 
+            // lbl_cancel_reservation
+            // 
+            this.lbl_cancel_reservation.AutoSize = true;
+            this.lbl_cancel_reservation.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_cancel_reservation.Location = new System.Drawing.Point(51, 233);
+            this.lbl_cancel_reservation.Name = "lbl_cancel_reservation";
+            this.lbl_cancel_reservation.Size = new System.Drawing.Size(126, 21);
+            this.lbl_cancel_reservation.TabIndex = 5;
+            this.lbl_cancel_reservation.Text = "Court Number:";
+            // 
+            // lbl_cancel_date
+            // 
+            this.lbl_cancel_date.AutoSize = true;
+            this.lbl_cancel_date.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_cancel_date.Location = new System.Drawing.Point(123, 276);
+            this.lbl_cancel_date.Name = "lbl_cancel_date";
+            this.lbl_cancel_date.Size = new System.Drawing.Size(54, 21);
+            this.lbl_cancel_date.TabIndex = 6;
+            this.lbl_cancel_date.Text = "Date:";
+            // 
+            // lbl_cancel_time
+            // 
+            this.lbl_cancel_time.AutoSize = true;
+            this.lbl_cancel_time.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_cancel_time.Location = new System.Drawing.Point(127, 318);
+            this.lbl_cancel_time.Name = "lbl_cancel_time";
+            this.lbl_cancel_time.Size = new System.Drawing.Size(50, 21);
+            this.lbl_cancel_time.TabIndex = 7;
+            this.lbl_cancel_time.Text = "Time:";
+            // 
+            // lbl_cancel_courtNo_output
+            // 
+            this.lbl_cancel_courtNo_output.AutoSize = true;
+            this.lbl_cancel_courtNo_output.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_cancel_courtNo_output.Location = new System.Drawing.Point(183, 233);
+            this.lbl_cancel_courtNo_output.Name = "lbl_cancel_courtNo_output";
+            this.lbl_cancel_courtNo_output.Size = new System.Drawing.Size(20, 21);
+            this.lbl_cancel_courtNo_output.TabIndex = 8;
+            this.lbl_cancel_courtNo_output.Text = "--";
+            // 
+            // lbl_cancel_time_output
+            // 
+            this.lbl_cancel_time_output.AutoSize = true;
+            this.lbl_cancel_time_output.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_cancel_time_output.Location = new System.Drawing.Point(183, 318);
+            this.lbl_cancel_time_output.Name = "lbl_cancel_time_output";
+            this.lbl_cancel_time_output.Size = new System.Drawing.Size(20, 21);
+            this.lbl_cancel_time_output.TabIndex = 9;
+            this.lbl_cancel_time_output.Text = "--";
+            // 
+            // lbl_cancel_date_output
+            // 
+            this.lbl_cancel_date_output.AutoSize = true;
+            this.lbl_cancel_date_output.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_cancel_date_output.Location = new System.Drawing.Point(183, 276);
+            this.lbl_cancel_date_output.Name = "lbl_cancel_date_output";
+            this.lbl_cancel_date_output.Size = new System.Drawing.Size(20, 21);
+            this.lbl_cancel_date_output.TabIndex = 10;
+            this.lbl_cancel_date_output.Text = "--";
+            // 
+            // label_cancel_info
+            // 
+            this.label_cancel_info.AutoSize = true;
+            this.label_cancel_info.Font = new System.Drawing.Font("Century Gothic", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label_cancel_info.Location = new System.Drawing.Point(123, 186);
+            this.label_cancel_info.Name = "label_cancel_info";
+            this.label_cancel_info.Size = new System.Drawing.Size(229, 22);
+            this.label_cancel_info.TabIndex = 11;
+            this.label_cancel_info.Text = "Reservation Information";
             // 
             // Form1
             // 
@@ -726,6 +844,16 @@ namespace DesktopApp1
         private System.Windows.Forms.Label lbl_confirm_court_output;
         private System.Windows.Forms.TextBox textBox_confirm_memid;
         private System.Windows.Forms.Button btn_confirm_reservation;
+        private System.Windows.Forms.Label lbl_cancel_reservation;
+        private System.Windows.Forms.TextBox textBox_cancel_reservation;
+        private System.Windows.Forms.Label lbl_cancel_memID;
+        private System.Windows.Forms.Button btn_cancel_reservation;
+        private System.Windows.Forms.Label lbl_cancel_courtNo_output;
+        private System.Windows.Forms.Label lbl_cancel_time;
+        private System.Windows.Forms.Label lbl_cancel_date;
+        private System.Windows.Forms.Label lbl_cancel_date_output;
+        private System.Windows.Forms.Label lbl_cancel_time_output;
+        private System.Windows.Forms.Label label_cancel_info;
     }
 }
 

@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
+using System.Xml.XPath;
 
 // This is the code for your desktop app.
 // Press Ctrl+F5 (or go to Debug > Start Without Debugging) to run your app.
@@ -28,8 +29,19 @@ namespace DesktopApp1
                 if (new FileInfo("data.xml").Length != 0)
                 {
                     showTable();
-                    dataGridView1.Columns[0].Width = 55;
-                    dataGridView1.Columns[4].Width = 75;
+                    try
+                    {
+                        dataGridView1.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+                        dataGridView1.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+                        dataGridView1.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+                        dataGridView1.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+                        dataGridView1.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    }
+                    catch (Exception)
+                    {
+                        Console.WriteLine("No Data");
+                    }
+                    
                 }
                 else
                 {
@@ -75,6 +87,7 @@ namespace DesktopApp1
         private void Home_Click(object sender, EventArgs e)
         {
             this.tabControl1.SelectTab("Home");
+            
         }
 
         private void Lookup_Click(object sender, EventArgs e)
@@ -103,7 +116,8 @@ namespace DesktopApp1
 
             String time_reservation_short;
             String didConfirm = "--";
-
+            Boolean matchfound = false;
+            Boolean correctDate = false;
 
             //Get Date Information (1, 1, Wednesday, 2018) = Jan 1 2018
             date_dayofmonth     = dateTimePicker_reservedate.Value.Day.ToString();
@@ -129,9 +143,12 @@ namespace DesktopApp1
             //method to check if file is empty, if empty delete file
             fileEmpty();
 
+            correctDate = TestInvalidDate(dateTimePicker_reservedate);
+
             //Write the filled information to an XML file
-            if (memberNo != ""  && courtNo != "")
+            if (memberNo != ""  && courtNo != "" && correctDate == true)
             {
+                ifNoLongerExists:
                 if (!File.Exists("data.xml"))
                 {
                     XmlWriterSettings xmlWriterSettings = new XmlWriterSettings();
@@ -154,29 +171,72 @@ namespace DesktopApp1
                         xmlWriter.WriteEndDocument();
                         xmlWriter.Flush();
                         xmlWriter.Close();
+                        
                     }
+                    MessageBox.Show("Reservation added.");
                 }
                 else
                 {
-                    XDocument xDocument = XDocument.Load("data.xml");
-                    XElement root = xDocument.Element("CurrentReservations");
-                    IEnumerable<XElement> rows = root.Descendants("Reservation");
-                    XElement firstRow = rows.First();
-                    
-                    firstRow.AddBeforeSelf(
-                       new XElement("Reservation",
-                       new XElement("ID", memberNo),
-                       new XElement("Court", courtNo),
-                       new XElement("Day", date_month + "/" + date_dayofmonth + "/" + date_year),
-                       new XElement("Time", time_reservation_short),
-                       new XElement("Confirmed", didConfirm)));
-                    xDocument.Save("data.xml");
+                    string xmlDoc;
+                    xmlDoc = xmlAsString();
+                    XmlDocument xml = new XmlDocument();
+                    xml.LoadXml(xmlDoc);
+                    XmlNode node = xml.SelectSingleNode("/CurrentReservations/Reservation/Confirmed");
+
+
+                    //check all nodes under reservation section
+                    XmlNodeList xnlist = xml.SelectNodes("/CurrentReservations/Reservation");
+
+
+                    foreach (XmlNode xn in xnlist)
+                    {
+                        if (xn["ID"].InnerText == memberNo)
+                        {
+                            matchfound = true;
+                        }
+                    }
+                    if(matchfound == true)
+                    {
+                        try
+                        {
+                            MessageBox.Show("Member already has a reservation.");
+                        }
+                        catch (Exception)
+                        {
+                            File.Delete("data.xml");
+                            goto ifNoLongerExists;
+                        }
+                    }
+                    else if(matchfound == false)
+                    {
+                        XDocument xDocument = XDocument.Load("data.xml");
+                        XElement root = xDocument.Element("CurrentReservations");
+                        IEnumerable<XElement> rows = root.Descendants("Reservation");
+                        try
+                        {
+                            XElement firstRow = rows.First();
+
+                            firstRow.AddBeforeSelf(
+                               new XElement("Reservation",
+                               new XElement("ID", memberNo),
+                               new XElement("Court", courtNo),
+                               new XElement("Day", date_month + "/" + date_dayofmonth + "/" + date_year),
+                               new XElement("Time", time_reservation_short),
+                               new XElement("Confirmed", didConfirm)));
+                            xDocument.Save("data.xml");
+                            MessageBox.Show("Member added. Schedule updated.");
+                        }
+                        catch (Exception)
+                        {
+                            File.Delete("data.xml");
+                            goto ifNoLongerExists;
+                        }
+                    }
+
                 }
 
                 showTable();
-
-
-                MessageBox.Show("Member added. Schedule updated.");
+    
             }
             else
             {
@@ -216,25 +276,47 @@ namespace DesktopApp1
                 //check all nodes under reservation section
                 XmlNodeList xnlist = xml.SelectNodes("/CurrentReservations/Reservation");
 
-                foreach(XmlNode xn in xnlist)
+                Boolean matchfound = false;
+
+                foreach (XmlNode xn in xnlist)
                 {
-                    if(xn["ID"].InnerText == memID && node != null)
+                    if (xn["ID"].InnerText == memID && node != null)
                     {
-                        lbl_confirm_court_output.Text = xn["Court"].InnerText;
-                        lbl_confirm_time_output.Text = xn["Time"].InnerText;
-                        lbl_confirm_date_output.Text = xn["Day"].InnerText;
-                        xn["Confirmed"].InnerText = "\u2713";
-                        //node.InnerText = "no";
-                        xml.Save("data.xml");
-                        showTable();
+                        matchfound = true;
                     }
                 }
 
-                MessageBox.Show("Reservation Confirmed.");
+                if(matchfound == true)
+                {
+                    foreach (XmlNode xn in xnlist)
+                    {
+                        if (xn["ID"].InnerText == memID && node != null)
+                        {
+                            lbl_confirm_court_output.Text = xn["Court"].InnerText;
+                            lbl_confirm_time_output.Text = xn["Time"].InnerText;
+                            lbl_confirm_date_output.Text = xn["Day"].InnerText;
+                            xn["Confirmed"].InnerText = "\u2713";
+                            //node.InnerText = "no";
+                            xml.Save("data.xml");
+                            showTable();
+                            MessageBox.Show("Reservation Confirmed.");
+                        }
+                    } 
+                }
+                else
+                {
+                    MessageBox.Show("Reservation could not be confirmed");
+                }
+                
+
+                
                 
             }
             else
             {
+                lbl_confirm_court_output.Text = "--";
+                lbl_confirm_time_output.Text = "--";
+                lbl_confirm_date_output.Text = "--";
                 MessageBox.Show("Incorrect input in text field.");
             }
 
@@ -244,6 +326,73 @@ namespace DesktopApp1
 
         }
 
+        /***
+         * 
+         * Cancel Reservation
+         * 
+         * */
+        private void btn_cancel_reservation_Click(object sender, EventArgs e)
+        {
+            string xmlDoc;
+            string memID;
+            memID = textBox_cancel_reservation.Text;
+            memID = GetCorrectInput(memID);
+
+
+            //set string for the XML Doc
+            xmlDoc = xmlAsString();
+            XmlDocument xml = new XmlDocument();
+            xml.LoadXml(xmlDoc);
+
+            //check all nodes under reservation section
+            XmlNodeList xnlist = xml.SelectNodes("/CurrentReservations/Reservation");
+
+
+            if (memID != "")
+            {
+                XElement objElement = XElement.Load(@"data.xml");
+                XElement delNode = objElement.Descendants("Reservation").Where(a =>
+                            a.Element("ID").Value == memID).FirstOrDefault();
+                if(delNode != null)
+                {
+                    foreach (XmlNode xn in xnlist)
+                    {
+                        if (xn["ID"].InnerText == memID)
+                        {
+                            lbl_cancel_courtNo_output.Text = xn["Court"].InnerText;
+                            lbl_cancel_time_output.Text = xn["Time"].InnerText;
+                            lbl_cancel_date_output.Text = xn["Day"].InnerText;
+                            
+                            //node.InnerText = "no";
+                            xml.Save("data.xml");
+                            
+                        }
+                    }
+
+                    delNode.Remove();
+                    objElement.Save(@"data.xml");
+                    showTable();
+                    MessageBox.Show("Reservation Cancelled");
+                }
+                else
+                {
+                    lbl_cancel_courtNo_output.Text = "--";
+                    lbl_cancel_time_output.Text = "--";
+                    lbl_cancel_date_output.Text = "--";
+                    MessageBox.Show("This Member ID is not assosiated with a current reservation.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Member ID is not in correct format.");
+            }
+            
+            
+
+        }
+
+
+
         private void showTable()
         {
             if(new FileInfo("data.xml").Length > 0)
@@ -251,9 +400,18 @@ namespace DesktopApp1
                 try
                 {
                     DataSet ds = new DataSet();
+                    dataGridView1.Visible = true;
                     ds.Clear();
                     ds.ReadXml("data.xml");
-                    dataGridView1.DataSource = ds.Tables[0];
+                    try
+                    {
+                        dataGridView1.DataSource = ds.Tables[0];
+                    }
+                    catch (Exception)
+                    {
+                        dataGridView1.Visible = false;
+                    }
+                    
                 }
                 catch (Exception ex)
                 {
@@ -298,10 +456,30 @@ namespace DesktopApp1
             
         }
 
+        private Boolean TestInvalidDate(DateTimePicker input)
+        {
+            DateTime dt1 = DateTime.Now.Date;
+            DateTime dt2 = Convert.ToDateTime(input.Text.Trim()).Date;
+
+            if(dt1 >= dt2)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+
+            
+        }
+
         private string xmlAsString()
         {
             XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.Load("data.xml");
+            if (File.Exists("data.xml")){
+                xmlDoc.Load("data.xml");
+            }
+            
 
             StringWriter sw = new StringWriter();
             XmlTextWriter tx = new XmlTextWriter(sw);
@@ -311,6 +489,7 @@ namespace DesktopApp1
             string str = sw.ToString();
             return str;
         }
+
         
     }
 }
