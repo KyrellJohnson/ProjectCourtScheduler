@@ -118,6 +118,7 @@ namespace DesktopApp1
             String didConfirm = "--";
             Boolean matchfound = false;
             Boolean correctDate = false;
+            Boolean correctTime = false;
 
             //Get Date Information (1, 1, Wednesday, 2018) = Jan 1 2018
             date_dayofmonth     = dateTimePicker_reservedate.Value.Day.ToString();
@@ -144,9 +145,10 @@ namespace DesktopApp1
             fileEmpty();
 
             correctDate = TestInvalidDate(dateTimePicker_reservedate);
+            correctTime = TestTime(dateTimePicker_reservetime);
 
             //Write the filled information to an XML file
-            if (memberNo != ""  && courtNo != "" && correctDate == true)
+            if (memberNo != ""  && courtNo != "" && correctDate == true && correctTime == true)
             {
                 ifNoLongerExists:
                 if (!File.Exists("data.xml"))
@@ -240,7 +242,15 @@ namespace DesktopApp1
             }
             else
             {
-                MessageBox.Show("Invalid input. Please fill out all fields correctly.");
+                if(correctDate == false || correctTime == false)
+                {
+                    MessageBox.Show("Invalid Date/Time Entered");
+                }
+                else
+                {
+                    MessageBox.Show("Invalid input. Please fill out all fields correctly.");
+                }
+                
             }
           
         }
@@ -463,14 +473,37 @@ namespace DesktopApp1
 
             if(dt1 >= dt2)
             {
+                //if date is in past
                 return false;
             }
             else
             {
-                return true;
+                //if date is in future
+                if ((dt1 - dt2).TotalDays >= -7)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+                
             }
 
             
+        }
+
+        private Boolean TestTime(DateTimePicker input)
+        {
+            
+            int timeSec = Convert.ToDateTime(input.Text.Trim()).Minute;
+            if(timeSec == 00)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         private string xmlAsString()
@@ -490,6 +523,10 @@ namespace DesktopApp1
             return str;
         }
 
-        
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            lblTime.Text = DateTime.Now.ToString("dd-MMM-yyyy hh:mm:ss tt");
+            
+        }
     }
 }
